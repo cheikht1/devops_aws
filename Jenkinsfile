@@ -27,7 +27,7 @@ pipeline {
     }
     post {
         success {
-            bat 'docker-compose down -v'
+           // bat 'docker-compose down -v'
             slackSend channel: '#projetdevops', message: 'Build réussi'
         }
         failure {
