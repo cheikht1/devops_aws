@@ -11,7 +11,7 @@
 <body>
     <!-- <div class="container"> -->
     <header>
-        <h1>Mini formulaire simple (Focus sur cheikh thiam le devops)</h1>
+        <h1>Mini formulaire simple (Focus sur cheikh le devops)</h1>
     </header>
 
         <h1>Modifier mon Profil</h1>
