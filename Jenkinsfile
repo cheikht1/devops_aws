@@ -34,10 +34,10 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
                     script {
-                        // Déployer sur Kubernetes
-                        bat "kubectl apply -f dbDeploy.yml --kube_conf=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f webDeploy.yml --kube_conf=${KUBECONFIG} --validate=false"
-                    }
+                // Déployer sur Kubernetes
+                bat "kubectl apply -f dbDeploy.yml --kubeconfig=$env:KUBECONFIG --validate=false"
+                bat "kubectl apply -f webDeploy.yml --kubeconfig=$env:KUBECONFIG --validate=false"
+                  }
                 }
             }
         }
