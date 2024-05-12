@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-db
+  labels:
+    app: ligne-rouge-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ligne-rouge-db
+  template:
+    metadata:
+      labels:
+        app: ligne-rouge-db
+    spec:
+      containers:
+        - name: db
+          image: cheikht/gr3_pipeline-db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+          ports:
+            - containerPort: 3306
