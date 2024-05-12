@@ -35,9 +35,8 @@ pipeline {
                 withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
                     script {
                         // Déployer sur Kubernetes
-                        sh 'kubectl apply -f components.yaml --kube_conf=${KUBECONFIG} --validate=false '
-                        sh 'kubectl apply -f db-deployment.yml --kube_conf=${KUBECONFIG} --validate=false'
-                        sh 'kubectl apply -f web-deployment.yml --kube_conf=${KUBECONFIG} --validate=false'
+                        sh 'kubectl apply -f dbDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
+                        sh 'kubectl apply -f webDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
                     }
                 }
             }
