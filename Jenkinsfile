@@ -8,29 +8,29 @@ pipeline {
         DOCKER_TAG2 = "latest"
     }
     stages {
-        // stage('Build') {
-        //     steps {
-        //         script {
-        //             bat "docker --version" // Vérifier que Docker est accessible
-        //             // Lancement de Docker Compose
-        //             bat "docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile ."
-        //             bat "docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile ."
-        //         }
-        //     }
-        // }
-        // stage('Push Docker Image') {
-        //     steps {
-        //         script {
-        //             bat "docker login -u cheikht -p m6rZ.uGUKpTXWkq"
-        //             // Mettez ici vos commandes pour pousser
-        //             bat "docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
-        //             bat "docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
-        //             bat "docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
-        //             bat "docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
-        //         }
-        //     }
-        // }
-        stage('Deploy') {
+        stage('Cree les fichiers Image Docker') {
+            steps {
+                script {
+                    bat "docker --version" // Vérifier que Docker est accessible
+                    // Lancement de Docker Compose
+                    bat "docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile ."
+                    bat "docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile ."
+                }
+            }
+        }
+        stage('publier les images Docker') {
+            steps {
+                script {
+                    bat "docker login -u cheikht -p m6rZ.uGUKpTXWkq"
+                    // Mettez ici vos commandes pour pousser
+                    bat "docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
+                    bat "docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
+                    bat "docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
+                    bat "docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
+                }
+            }
+        }
+        stage('Deployer sur Kubernetes') {
         steps {
         withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
             script {
