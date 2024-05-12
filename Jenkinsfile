@@ -34,13 +34,16 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
                     script {
+                // Afficher la valeur de KUBECONFIG pour le débogage
+                echo "KUBECONFIG: ${env.KUBECONFIG}"
                 // Déployer sur Kubernetes
-                bat "kubectl apply -f dbDeploy.yml --kubeconfig=$env:KUBECONFIG --validate=false"
-                bat "kubectl apply -f webDeploy.yml --kubeconfig=$env:KUBECONFIG --validate=false"
-                  }
-                }
+                bat "kubectl apply -f dbDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f webDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
             }
         }
+    }
+}
+
     }
     post {
         success {
