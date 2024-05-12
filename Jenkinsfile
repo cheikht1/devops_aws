@@ -37,8 +37,8 @@ pipeline {
                 // Afficher la valeur de KUBECONFIG pour le débogage
                 echo "KUBECONFIG: ${env.KUBECONFIG}"
                 // Déployer sur Kubernetes
-                bat "kubectl apply -f kubernetes/dbDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
-                bat "kubectl apply -f kubernetes/webDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f ./kubernetes/dbDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f ./kubernetes/webDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
             }
         }
     }
