@@ -21,6 +21,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
+                    bat "docker login -u  -p m6rZ.uGUKpTXWkq"
                     // Mettez ici vos commandes pour pousser
                     bat "docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
                     bat "docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
