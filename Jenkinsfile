@@ -12,10 +12,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // sh 'docker --version' // Vérifier que Docker est accessible
+                    bat 'docker --version' // Vérifier que Docker est accessible
                     // Lancement de Docker Compose
-                    sh 'docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile .'
-                    sh 'docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile .'
+                    bat 'docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile .'
+                    bat 'docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile .'
                 }
             }
         }
@@ -23,10 +23,10 @@ pipeline {
             steps {
                 script {
                     // Mettez ici vos commandes pour pousser
-                    sh 'docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
-                    sh 'docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
-                    sh 'docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
-                    sh 'docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
+                    bat 'docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
+                    bat 'docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
+                    bat 'docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
+                    bat 'docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
                 }
             }
         }
@@ -35,8 +35,8 @@ pipeline {
                 withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
                     script {
                         // Déployer sur Kubernetes
-                        sh 'kubectl apply -f dbDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
-                        sh 'kubectl apply -f webDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
+                        bat 'kubectl apply -f dbDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
+                        bat 'kubectl apply -f webDeploy.yml --kube_conf=${KUBECONFIG} --validate=false'
                     }
                 }
             }
