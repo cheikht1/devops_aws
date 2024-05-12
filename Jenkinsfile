@@ -30,23 +30,18 @@ pipeline {
         //         }
         //     }
         // }
-stage('Deploy') {
-    steps {
-        withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
+        stage('Deploy') {
+        steps {
+        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
             script {
-                def yamlDbFilePath = "./kubernetes/dbDeploy.yml"  // chemin du fichier YAML pour la base de données
-                def yamlWebFilePath = "./kubernetes/webDeploy.yml"  // chemin du fichier YAML pour l'application web
-                
-                echo "Utilisation du fichier YAML pour la base de données : ${yamlDbFilePath}"
-                echo "Utilisation du fichier YAML pour l'application web : ${yamlWebFilePath}"
-                
                 // Déployer sur Kubernetes
-                bat "kubectl apply -f ${yamlDbFilePath} --kubeconfig=${env.KUBECONFIG} --validate=false"
-                bat "kubectl apply -f ${yamlWebFilePath} --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f dbDeploy.yml --kubeconfig=%KUBECONFIG% --validate=false"
+                bat "kubectl apply -f webDeploy.yml --kubeconfig=%KUBECONFIG% --validate=false"
             }
         }
     }
 }
+
  }
     post {
         success {
