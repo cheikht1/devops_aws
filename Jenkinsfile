@@ -1,46 +1,45 @@
 pipeline {
     agent any
-    // triggers {
-    //     githubPush()
-    // }
+    environment {
+        DOCKER_COMPOSE_VERSION = '1.29.2'
+        PATH = "/usr/local/bin:$PATH" // Assurez-vous que cela inclut le chemin vers Docker
+        DOCKER_IMAGE1 = "apache_ct"
+        DOCKER_TAG1 = "latest"
+        DOCKER_IMAGE2 = "mysql_ct"
+        DOCKER_TAG2 = "latest"
+    }
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         git 'https://github.com/nazimgueye/fil_rouge.git'
-        //     }
-        // }
-        // stage ('Build Docker Images') {
-        //     steps {
-        //         bat 'docker-compose up -d'
-        //     }
-        // }
-        // stage ('Run Tests') {
-        //     steps {
-        //         bat 'docker ps -a' // Remplacez ceci par vos tests réels si nécessaire
-        //     }
-        // }
-        stage('Deploy to Kubernetes') {
+        stage('Build') {
             steps {
                 script {
-                    // Récupérer le fichier kubeconfig depuis les credentials de Jenkins
-                    def kubeconfig = credentials('kube_config')
-
-                    // Assurez-vous que le fichier kubeconfig existe
-                    if (!fileExists(kubeconfig)) {
-                        error "Le fichier kubeconfig n'existe pas à l'emplacement spécifié."
-                    }
-
-                    // Appliquer les ressources Kubernetes depuis le dossier 'kubernetes' en utilisant le fichier kubeconfig
-                    dir('kubernetes') {
-                        // Utilisez la commande kubectl apply avec l'option --kubeconfig pour spécifier le fichier kubeconfig
-                        sh "kubectl apply -f . --kubeconfig=${kubeconfig}"
-                    }
+                    sh 'docker --version' // Vérifier que Docker est accessible
+                    // Lancement de Docker Compose
+                    sh 'docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile .'
+                    sh 'docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile .'
                 }
             }
         }
-        stage ('Run Docker Compose') {
+        stage('Push Docker Image') {
             steps {
-                bat 'docker-compose up -d --build'
+                script {
+                    // Mettez ici vos commandes pour pousser
+                    sh 'docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
+                    sh 'docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}'
+                    sh 'docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
+                    sh 'docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
+                    script {
+                        // Déployer sur Kubernetes
+                        sh 'kubectl apply -f components.yaml --kube_conf=${KUBECONFIG} --validate=false '
+                        sh 'kubectl apply -f db-deployment.yml --kube_conf=${KUBECONFIG} --validate=false'
+                        sh 'kubectl apply -f web-deployment.yml --kube_conf=${KUBECONFIG} --validate=false'
+                    }
+                }
             }
         }
     }
