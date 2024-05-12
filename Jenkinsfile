@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    bat '"docker --version"' // Vérifier que Docker est accessible
+                    bat "docker --version" // Vérifier que Docker est accessible
                     // Lancement de Docker Compose
                     bat "docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile ."
                     bat "docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile ."
