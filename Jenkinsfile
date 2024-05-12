@@ -30,21 +30,24 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Deploy') {
-            steps {
-                withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
-                    script {
-                // Afficher la valeur de KUBECONFIG pour le débogage
-                echo "KUBECONFIG: ${env.KUBECONFIG}"
+stage('Deploy') {
+    steps {
+        withCredentials([file(credentialsId: 'kube_conf', variable: 'KUBECONFIG')]) {
+            script {
+                def yamlDbFilePath = "./kubernetes/dbDeploy.yml"  // chemin du fichier YAML pour la base de données
+                def yamlWebFilePath = "./kubernetes/webDeploy.yml"  // chemin du fichier YAML pour l'application web
+                
+                echo "Utilisation du fichier YAML pour la base de données : ${yamlDbFilePath}"
+                echo "Utilisation du fichier YAML pour l'application web : ${yamlWebFilePath}"
+                
                 // Déployer sur Kubernetes
-                bat "kubectl apply -f ./kubernetes/dbDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
-                bat "kubectl apply -f ./kubernetes/webDeploy.yml --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f ${yamlDbFilePath} --kubeconfig=${env.KUBECONFIG} --validate=false"
+                bat "kubectl apply -f ${yamlWebFilePath} --kubeconfig=${env.KUBECONFIG} --validate=false"
             }
         }
     }
 }
-
-    }
+ }
     post {
         success {
            // bat 'docker-compose down -v'
