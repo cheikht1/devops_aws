@@ -18,28 +18,41 @@ pipeline {
                 }
             }
         }
-        // stage('publier les images Docker') {
-        //     steps {
-        //         script {
-        //             bat "docker login -u cheikht -p m6rZ.uGUKpTXWkq"
-        //             // Mettez ici vos commandes pour pousser
-        //             bat "docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
-        //             bat "docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
-        //             bat "docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
-        //             bat "docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
-        //         }
-        //     }
-        // }
-        stage('Deployer sur Kubernetes') {
-        steps {
-        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-            script {
-                // Déployer sur Kubernetes
-                bat "kubectl apply -f db_web_deploy_serv.yml --kubeconfig=%KUBECONFIG% --validate=false"
+        stage('publier les images Docker') {
+            steps {
+                script {
+                    bat "docker login -u cheikht -p m6rZ.uGUKpTXWkq"
+                    // Mettez ici vos commandes pour pousser
+                    bat "docker tag ${DOCKER_IMAGE1}:${DOCKER_TAG1} cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
+                    bat "docker push cheikht/${DOCKER_IMAGE1}:${DOCKER_TAG1}"
+                    bat "docker tag ${DOCKER_IMAGE2}:${DOCKER_TAG2} cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
+                    bat "docker push cheikht/${DOCKER_IMAGE2}:${DOCKER_TAG2}"
+                }
             }
         }
-    }
-}
+//         stage('Deployer sur Kubernetes') {
+//         steps {
+//         withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+//             script {
+//                 // Déployer sur Kubernetes
+//                 bat "kubectl apply -f db_web_deploy_serv.yml --kubeconfig=%KUBECONFIG% --validate=false"
+//             }
+//         }
+//     }
+// }
+      stage('Terraform') {
+            steps {
+                dir('terraform') {
+                    script {
+                        // Lancement de Terraform
+                        sh 'terraform --version'
+                        sh 'terraform init'
+                        sh 'terraform plan'
+                        sh 'terraform apply -auto-approve'
+                    }
+                }
+            }
+        }
 
  }
     post {
