@@ -29,10 +29,10 @@ spec:
               value: fil_rouge
           resources:
             limits:
-              cpu: "0.5"
+              cpu: "500m"
               memory: "512Mi"
             requests:
-              cpu: "0.1"
+              cpu: "100m"
               memory: "256Mi"
       volumes:
         - name: app-volume
