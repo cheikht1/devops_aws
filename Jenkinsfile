@@ -8,16 +8,16 @@ pipeline {
         DOCKER_TAG2 = "latest"
     }
     stages {
-        stage('Cree les fichiers Image Docker') {
-            steps {
-                script {
-                    bat "docker --version" // Vérifier que Docker est accessible
-                    // Lancement de Docker Compose
-                    bat "docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile ."
-                    bat "docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile ."
-                }
-            }
-        }
+        // stage('Cree les fichiers Image Docker') {
+        //     steps {
+        //         script {
+        //             bat "docker --version" // Vérifier que Docker est accessible
+        //             // Lancement de Docker Compose
+        //             bat "docker build -t ${DOCKER_IMAGE2}:${DOCKER_TAG1} -f Db.Dockerfile ."
+        //             bat "docker build -t ${DOCKER_IMAGE1}:${DOCKER_TAG2} -f Web.Dockerfile ."
+        //         }
+        //     }
+        // }
         // stage('publier les images Docker') {
         //     steps {
         //         script {
@@ -45,10 +45,10 @@ pipeline {
                 dir('terraform') {
                     script {
                         // Lancement de Terraform
-                        sh 'terraform --version'
-                        sh 'terraform init'
-                        sh 'terraform plan'
-                        sh 'terraform apply -auto-approve'
+                        bat 'terraform --version'
+                        bat 'terraform init'
+                        bat 'terraform plan'
+                        bat 'terraform apply -auto-approve'
                     }
                 }
             }
