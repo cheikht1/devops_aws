@@ -48,7 +48,7 @@ pipeline {
                         bat 'terraform --version'
                         bat 'terraform init'
                         bat 'terraform plan'
-                        bat 'terraform apply -auto-approve'
+                        bat 'terraform apply'
                     }
                 }
             }
