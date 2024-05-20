@@ -34,10 +34,10 @@ pipeline {
             }
         }
         
-        stage('Afficher les Services') {
+        stage('Afficher le Service') {
             steps {
                 script {
-                    bat "kubectl service app-service"
+                    bat "minikube service app-service"
                 }
             }
         }
