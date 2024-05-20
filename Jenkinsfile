@@ -10,14 +10,14 @@ pipeline {
     stages {
         // Vos stages précédents sont ici
 
-        stage('Démarrer Minikube') {
-            steps {
-                script {
-                    bat "minikube start"
-                    bat "minikube dashboard"
-                }
-            }
-        }
+        // stage('Démarrer Minikube') {
+        //     steps {
+        //         script {
+        //             bat "minikube start"
+        //             bat "minikube dashboard"
+        //         }
+        //     }
+        // }
         
         stage('Terraform') {
             steps {
