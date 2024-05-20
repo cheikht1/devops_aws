@@ -37,6 +37,7 @@ pipeline {
         stage('Afficher le Service') {
             steps {
                 script {
+                    bat "minikube start"
                     bat "minikube service app-service"
                 }
             }
