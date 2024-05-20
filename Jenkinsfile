@@ -8,16 +8,6 @@ pipeline {
         DOCKER_TAG2 = "latest"
     }
     stages {
-        // Vos stages précédents sont ici
-
-        // stage('Démarrer Minikube') {
-        //     steps {
-        //         script {
-        //             bat "minikube start"
-        //             bat "minikube dashboard"
-        //         }
-        //     }
-        // }
         
         stage('Terraform') {
             steps {
@@ -34,14 +24,7 @@ pipeline {
             }
         }
         
-        stage('Afficher le Service') {
-            steps {
-                script {
-                    bat "minikube start"
-                    bat "minikube service app-service"
-                }
-            }
-        }
+    
     }
     post {
         success {
