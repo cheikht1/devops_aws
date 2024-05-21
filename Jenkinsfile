@@ -8,6 +8,17 @@ pipeline {
         DOCKER_TAG2 = "latest"
     }
     stages {
+        // Vos stages précédents sont ici
+
+        stage('Démarrer Minikube') {
+            steps {
+                script {
+                    bat "minikube start"
+                    bat "minikube dashboard"
+                }
+            }
+        }
+        
         stage('Terraform') {
             steps {
                 dir('terraform') {
@@ -19,6 +30,14 @@ pipeline {
                         bat 'terraform apply --auto-approve'
                         // bat 'terraform destroy --auto-approve'
                     }
+                }
+            }
+        }
+        
+        stage('Afficher les Services') {
+            steps {
+                script {
+                    bat "kubectl service app-service"
                 }
             }
         }
