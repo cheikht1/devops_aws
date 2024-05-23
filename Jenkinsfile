@@ -9,17 +9,20 @@ pipeline {
     }
     stages {
         stage('Terraform') {
-            steps {
-                script {
-                    // Lancement de Terraform
-                    sh 'terraform --version'
-                    //sh 'terraform init'
-                    sh 'terraform plan'
-                    sh 'terraform apply --auto-approve'
-                    // sh 'terraform destroy --auto-approve'
-                }
+    steps {
+        script {
+            // Lancement de Terraform
+            dir('Terraform') {
+                // Se déplacer dans le dossier Terraform
+                sh 'terraform --version'
+                sh 'terraform init'
+                sh 'terraform plan'
+                sh 'terraform apply --auto-approve'
+                // sh 'terraform destroy --auto-approve'
             }
         }
+    }
+}
     }
     post {
         success {

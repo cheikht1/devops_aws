@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  config_path = "C:/Users/bmd tech/.kube/config" //"~/.kube/config"
+  config_path = "~/.kube/config" //"~/.kube/config"
 }
 resource "kubernetes_manifest" "deployment_web" {
   manifest = yamldecode(file("../kubernetes/web_deploy.yml"))
