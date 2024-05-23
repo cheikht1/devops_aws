@@ -13,7 +13,7 @@ pipeline {
                 script {
                     // Lancement de Terraform
                     sh 'terraform --version'
-                    sh 'terraform init'
+                    //sh 'terraform init'
                     sh 'terraform plan'
                     sh 'terraform apply --auto-approve'
                     // sh 'terraform destroy --auto-approve'
