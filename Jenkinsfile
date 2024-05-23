@@ -10,21 +10,20 @@ pipeline {
     stages {
         stage('Terraform') {
             steps {
-                dir('terraform') {
-                    script {
-                        // Lancement de Terraform
-                        bat 'terraform --version'
-                        bat 'terraform init'
-                        bat 'terraform plan'
-                        bat 'terraform apply --auto-approve'
-                        // bat 'terraform destroy --auto-approve'
-                    }
+                script {
+                    // Lancement de Terraform
+                    sh 'terraform --version'
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                    sh 'terraform apply --auto-approve'
+                    // sh 'terraform destroy --auto-approve'
                 }
             }
         }
     }
     post {
         success {
+            // bat 'docker-compose down -v'
             slackSend channel: '#projetdevops', message: 'Build réussi'
         }
         failure {
@@ -32,6 +31,7 @@ pipeline {
         }
     }
 }
+
 
 
 
