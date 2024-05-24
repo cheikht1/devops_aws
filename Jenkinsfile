@@ -1,4 +1,4 @@
-ppipeline {
+pipeline {
     agent any
     environment {
         DOCKER_COMPOSE_VERSION = '1.29.2'
