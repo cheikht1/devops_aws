@@ -1,4 +1,4 @@
-pipeline {
+ppipeline {
     agent any
     environment {
         DOCKER_COMPOSE_VERSION = '1.29.2'
@@ -9,31 +9,48 @@ pipeline {
     }
     stages {
         stage('Terraform') {
-    steps {
-        script {
-            // Lancement de Terraform
-            dir('Terraform') {
-                // Se déplacer dans le dossier Terraform
-                sh 'terraform --version'
-                sh 'terraform init'
-                sh 'terraform plan'
-                sh 'terraform apply --auto-approve'
-                // sh 'terraform destroy --auto-approve'
+            steps {
+                script {
+                    // Lancement de Terraform
+                    dir('Terraform') {
+                        // Se déplacer dans le dossier Terraform
+                        sh 'terraform --version'
+                        sh 'terraform init'
+                        sh 'terraform plan'
+                        sh 'terraform apply --auto-approve'
+                        // sh 'terraform destroy --auto-approve'
+                    }
+                }
+            }
+        }
+        stage('Install Python dependencies and Deploy with Ansible') {
+            steps {
+                script {
+                    // Installation des dépendances Python et déploiement avec Ansible
+                    sh '''
+                    sudo apt-get install -y python3-venv
+                    cd ansible
+                    sudo python3 -m venv venv
+                    . venv/bin/activate
+                    pip install kubernetes ansible
+                    ansible-playbook playbook.yml
+                    '''
+                }
             }
         }
     }
-}
-    }
     post {
         success {
-            // bat 'docker-compose down -v'
+            // Envoi d'une notification Slack en cas de succès
             slackSend channel: '#projetdevops', message: 'Build réussi'
         }
         failure {
+            // Envoi d'une notification Slack en cas d'échec
             slackSend channel: '#projetdevops', message: 'Build échoué'
         }
     }
 }
+
 
 
 
