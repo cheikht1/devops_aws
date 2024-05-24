@@ -30,7 +30,7 @@ pipeline {
                     // Installation des dépendances Python et déploiement avec Ansible
                     sh '''
                     sudo apt-get install -y python3-venv
-                    cd ansible
+                    cd Ansible
                     sudo python3 -m venv venv
                     . venv/bin/activate
                     pip install kubernetes ansible
