@@ -33,7 +33,7 @@ pipeline {
             cd Ansible
             python3 -m venv venv
             . venv/bin/activate
-            pip install --user kubernetes ansible
+            pip install kubernetes ansible
             ansible-playbook playbook.yml
             '''
         }
