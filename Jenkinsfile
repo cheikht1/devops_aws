@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.8' // Utilisez une image Docker avec Python préinstallé
+            args '-u root' // Exécutez le conteneur en tant que root pour pouvoir installer des packages
+        }
+    }
     environment {
         DOCKER_COMPOSE_VERSION = '1.29.2'
         DOCKER_IMAGE1 = "apache_ct"
@@ -29,9 +34,10 @@ pipeline {
                 script {
                     // Installation des dépendances Python et déploiement avec Ansible
                     sh '''
-                    sudo apt-get install -y python3-venv
+                    apt-get update
+                    apt-get install -y python3-venv
                     cd ansible
-                    sudo python3 -m venv venv
+                    python3 -m venv venv
                     . venv/bin/activate
                     pip install kubernetes ansible
                     ansible-playbook playbook.yml
