@@ -17,7 +17,7 @@ pipeline {
                         // Se déplacer dans le dossier Terraform
                         sh 'terraform --version'
                         sh 'terraform init'
-                        sh 'tterraform plan -var="kubeconfig_path=/home/cheikh/.kube/config"'
+                        sh 'terraform plan -var="kubeconfig_path=/home/cheikh/.kube/config"'
                         sh 'terraform apply --auto-approve -var="kubeconfig_path=$KUBECONFIG"'
                         // sh 'terraform destroy --auto-approve -var="kubeconfig_path=$KUBECONFIG"'
                     }
