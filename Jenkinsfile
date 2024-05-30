@@ -6,7 +6,7 @@ pipeline {
         DOCKER_TAG1 = "latest"
         DOCKER_IMAGE2 = "mysql_ct"
         DOCKER_TAG2 = "latest"
-        KUBECONFIG = '~/.kube/config'
+        KUBECONFIG = '/home/cheikh/.kube/config'
     }
     stages {
         stage('Terraform') {

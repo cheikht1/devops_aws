@@ -10,7 +10,7 @@ terraform {
 variable "kubeconfig_path" {
   description = "Path to the kubeconfig file"
   type        = string
-  default     = "~/.kube/config"
+  default     = "/home/cheikh/.kube/config"
 }
 
 provider "kubernetes" {

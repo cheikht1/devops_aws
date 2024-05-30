@@ -6,22 +6,22 @@
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/web_deploy.yml') }}"
-        kubeconfig: "~/.kube/config"
+        kubeconfig: "/home/cheikh/.kube/config"
 
     - name: Deploy MySQL application
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/db_deploy.yml') }}"
-        kubeconfig: "~/.kube/config"
+        kubeconfig: "/home/cheikh/.kube/config"
 
     - name: Create service for Apache application
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/web_services.yml') }}"
-        kubeconfig: "~/.kube/config"
+        kubeconfig: "/home/cheikh/.kube/config"
 
     - name: Create service for MySQL application
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/db_services.yml') }}"
-        kubeconfig: "~/.kube/config"
+        kubeconfig: "/home/cheikh/.kube/config"
