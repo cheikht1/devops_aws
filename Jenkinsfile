@@ -6,7 +6,7 @@ pipeline {
         DOCKER_TAG1 = "latest"
         DOCKER_IMAGE2 = "mysql_ct"
         DOCKER_TAG2 = "latest"
-        KUBECONFIG = '/home/cheikh/.kube/config'
+        KUBECONFIG = "/home/cheikh/.kube/config"
     }
     stages {
         stage('Terraform') {
@@ -17,7 +17,7 @@ pipeline {
                         // Se déplacer dans le dossier Terraform
                         sh 'terraform --version'
                         sh 'terraform init'
-                        sh 'terraform plan -var="kubeconfig_path=$KUBECONFIG"'
+                        sh 'tterraform plan -var="kubeconfig_path=/home/cheikh/.kube/config"'
                         sh 'terraform apply --auto-approve -var="kubeconfig_path=$KUBECONFIG"'
                         // sh 'terraform destroy --auto-approve -var="kubeconfig_path=$KUBECONFIG"'
                     }
