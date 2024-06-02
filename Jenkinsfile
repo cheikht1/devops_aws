@@ -28,7 +28,7 @@ pipeline {
     steps {
         script {
             // Installation des dépendances Python et déploiement avec Ansible
-            sh 'ansible-playbook playbook.yml'
+            sh 'ansible-playbook ./Ansible/playbook.yml'
         }
     }
 }
