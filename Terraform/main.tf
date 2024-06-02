@@ -20,7 +20,8 @@ provider "kubernetes" {
 # Terraform provisionne uniquement le cluster Kubernetes ici
 # Les déploiements et services Kubernetes seront gérés par Ansible
 
-output "kube_config" {
-  value     = file(var.kubeconfig_path)
-  sensitive = true
-}
+# Supprimer ou modifier la sortie pour éviter de lire le fichier de configuration Kubernetes
+# output "kube_config" {
+#   value     = file(var.kubeconfig_path)
+#   sensitive = true
+# }
