@@ -2,6 +2,16 @@
 - name: Deploy applications to Kubernetes
   hosts: localhost
   tasks:
+    - name: Ensure kubeconfig is available
+      stat:
+        path: "/home/cheikh/.kube/config"
+      register: kubeconfig_file
+
+    - name: Fail if kubeconfig is not found
+      fail:
+        msg: "Kubeconfig file not found at /home/cheikh/.kube/config"
+      when: not kubeconfig_file.stat.exists
+
     - name: Deploy Apache application
       kubernetes.core.k8s:
         state: present

@@ -1,4 +1,5 @@
-version: '1'
+version: '3.8'
+
 services:
   php:
     build: 
@@ -8,24 +9,25 @@ services:
       - "8585:80"
     depends_on:
       - db
-    # volumes:
-    #   - .:/var/www/html
-    # environment:
-    #   DATABASE_HOST: db
-    #   DATABASE_USER: nazim
-    #   DATABASE_PASSWORD: passer
-    #   DATABASE_NAME: fil_rouge
+    networks:
+      - monitoring
 
   db:
     build:  
       context: .
       dockerfile: Db.Dockerfile
     ports:
-      - "3306"
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-  
+    networks:
+      - monitoring
+
 volumes:
   mysql_data:
+
+networks:
+  monitoring:
+    external: true

@@ -28,14 +28,7 @@ pipeline {
     steps {
         script {
             // Installation des dépendances Python et déploiement avec Ansible
-            sh '''
-            sudo apt-get install -y python3-venv
-            cd Ansible
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install kubernetes ansible
-            ansible-playbook playbook.yml -vvv
-            '''
+            sh 'ansible-playbook playbook.yml'
         }
     }
 }
