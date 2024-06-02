@@ -29,7 +29,7 @@ pipeline {
        script {
     // Installation des dépendances Python et déploiement avec Ansible
     sh '''
-    echo 'votre_mot_de_passe_sudo' | sudo -S apt-get install -y python3-venv
+    echo ' ' | sudo -S apt-get install -y python3-venv
     cd Ansible
     python3 -m venv venv
     . venv/bin/activate
