@@ -26,18 +26,18 @@ pipeline {
         }
         stage('Install Python dependencies and Deploy with Ansible') {
     steps {
-        script {
-            // Installation des dépendances Python et déploiement avec Ansible
-            sh '''
-            sudo apt-get install -y python3-venv
-            cd Ansible
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install kubernetes ansible
-            ansible-playbook playbook.yml
-            '''
-        }
-    }
+       script {
+    // Installation des dépendances Python et déploiement avec Ansible
+    sh '''
+    echo ' ' | sudo -S apt-get install -y python3-venv
+    cd Ansible
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install kubernetes ansible
+    ansible-playbook playbook.yml
+    '''
+}
+
 }
 
     }
