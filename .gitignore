@@ -1,2 +1,7 @@
 /docker-compose-monitoring.yml
 prometheus.yml
+/docker-compose-elk.yml
+/filebeat
+/metricbeat
+/logstash
+docker-compose.yml
